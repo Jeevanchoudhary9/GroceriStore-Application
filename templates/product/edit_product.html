@@ -1,0 +1,92 @@
+{% extends 'manager_layout.html' %}
+{% block content %}
+<!-- <code style="margin-left:20px;margin-top:15px;">Editing a Exsiting Category</code>
+<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <form action="" method="POST" style="text-align:center;">
+        <div>
+            <div>
+                <label for="productname" class="leading-7 text-sm text-gray-600">Product Name:</label>
+                <input type="text" id="productname" value="{{product.productname}}" name="productname" class=" bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"required autofocus>
+            </div>
+            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" style="margin-top: 10px;">Save</button>
+        </div>
+    </form>
+</div> -->
+
+<code style="margin-left:20px;margin-top:15px;">Editing a New Product</code>
+<section class="text-gray-600 body-font relative">
+    <form action="" method="post" class="mt-5">
+    <div class="container px-5 py-15 mx-auto">
+      <div class="flex flex-col text-center w-full mb-12">
+        <!-- <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Register</h1> -->
+      </div>
+      
+      <div class="lg:w-1/2 md:w-2/3 mx-auto">
+        <div class="flex flex-wrap -m-2">
+          <div class="p-1 w-full">
+            <div class="relative">
+              <label for="productname" class="leading-7 text-sm text-gray-600">Product Name:</label>
+              <input type="text" id="productname" name="productname" value="{{product.productname}}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" required autofocus>
+            </div>
+          </div>
+                
+          <div class="p-1 w-full">
+            <div class="relative">
+              <label for="productunit" class="leading-7 text-sm text-gray-600">Unit:</label>
+              <select id="productunit" name="productunit" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-4 appearance-none leading-6 transition-colors duration-200 ease-in-out" required>
+                <option value="rs/kg"{%if product.unit == "rs/kg"%}selected{%endif%} >Rupees per Kilogram (Rs/kg)</option>
+                <option value="rs/l"{%if product.unit == "rs/l"%}selected{%endif%}>Rupees per Liter (Rs/Liter)</option>
+                <option value="rs/dozen"{%if product.unit == "rs/dozen"%}selected{%endif%}>Rupees per Dozen (Rs/dozen)</option>
+                <option value="rs/gm"{%if product.unit == "rs/gm"%}selected{%endif%}>Rupees per Gram (Rs/gram)</option>
+                <option value="rs/pack"{%if product.unit == "rs/pack"%}selected{%endif%}>Rupees per Pack (Rs/Pack)</option>
+                <!-- Add more options for other units -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        
+
+          <div class="flex flex-wrap -m-2">
+            <div class="p-1 w-full">
+              <div class="relative">
+                <label for="rateperunit" class="leading-7 text-sm text-gray-600">Rate/Unit</label>
+                <input type="number" id="rateperunit" name="rateperunit" value={{product.rateperunit}} class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" required>
+              </div>
+            </div>
+            <div class="p-1 w-full">
+              <div class="relative">
+                <label for="productquantity" class="leading-7 text-sm text-gray-600">Quantity</label>
+                <input type="number" id="productquantity" name="productquantity" value={{product.quantity}} class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" required>
+              </div>
+            </div>
+            </div>
+                  </div>
+          <div class="p-2 w-full" style="margin-top:15px;">
+            <input type="submit" class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg" value="Save" />
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </section>
+{% endblock %}
+
+
+{% block style %}  
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        margin-top: 60px;
+    }
+    input {
+        margin-top: 5px;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+{% endblock %}

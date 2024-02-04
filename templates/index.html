@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Grocerises - Login
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<div class="container px-12 py-16 mx-10  ">
+{% for category in categories%}
+
+
+
+<div class="component1 border-2 border-gray-200 rounded-lg p-4" style="margin-bottom:20px">
+
+    <div class="font-bold text-lg">{{category.categoryname}}</div>
+    {%if category.products==[]%}
+    <h2 class="text-sm tracking-widest title-font mb-1 font-medium text-center" style="margin-top:20px;">Products in this Category will be Available Soon.</h2>
+    {%else%}
+    <!--food category from here ie comp in comp-->
+    
+            <div class="overflow-x-auto">
+        <div class="flex flex-no-wrap -mx-2" >
+    {%for product in products%}
+        {%if product.categoryid==category.categoryid%}
+            <div class="p-3">
+                <div class="border-2 border-gray-200 px-4 py-6 rounded-lg relative h-full w-full" style="height: 130px; width: 250px;">
+                    {%if (product.productname)|length>18%}
+                        <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 left-0 ml-2 mt-2 overflow-auto">{{product.productname[:18]}}...</h2>
+                    {%else%}
+                        <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 left-0 ml-2 mt-2 overflow-auto">{{product.productname}}</h2>
+                    {%endif%}
+                    <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 right-0 mr-2 mt-2">{{product.rateperunit}}/{{product.unit.split('/')[1] }}</h2>
+                    {%if product.quantity>0%}
+                        <div class="relative top-10 flex">
+                            {%if product.quantity<30%}
+                                <a href="{{url_for('buy_product',productid=product.productid)}}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-8 relative left-10 rounded" style="font-size:8px;">Running<br>Out</a>
+                            {%else%}
+                                <a href="{{url_for('buy_product',productid=product.productid)}}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 relative left-10 rounded">Buy</a>
+                            {%endif%}
+                            
+                            <a href="{{url_for('addtocart',productid=product.productid)}}">
+                            <button class="bg-white-500 hover:bg-white-700 text-white font-bold py-2 px-2 relative left-12 rounded"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                            </svg></button></a>
+                        </div>
+                    {%else%}
+                        <!-- out of stock label  -->
+                        <div class="relative top-10 flex">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-8 relative left-10 rounded" style="background-color: transparent; border: 2px dashed red; color: red; padding: 8px 16px;">out of stock</button>
+                            
+                        </div>
+                    {%endif%}
+                </div>
+            </div>
+        {%endif%}
+    {%endfor%}
+
+            
+</div>
+</div>
+    {%endif%}
+                                                                                                
+
+            
+
+        
+
+</div>
+{%endfor%}
+</div>
+
+
+
+
+
+
+{% endblock %}

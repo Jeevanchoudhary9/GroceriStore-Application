@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Grocerises - Login
+{% endblock %}
+
+{% block content %}
+
+
+{%if orders|length == 0%}
+    <div class="container px-12 py-24 mx-10">
+        <div class="component1 border-gray-200 rounded-lg p-4 flex mb-4">
+            <div style="flex: 25%; display: flex; justify-content: center; align-items: center;">
+                <h2 class="text-sm tracking-widest title-font mb-1 font-medium " style="font-weight: bold;">You Have Not Ordered Anything Yet!</h2>
+            </div>
+        </div>
+    </div>
+{%else%}
+
+<div class="container px-12 py-16 mx-10  ">
+{% for order in orders|reverse%}
+
+
+<div class="component1 border-2 border-gray-200 rounded-lg p-4" style="margin-bottom:20px">
+    <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+    <div class="font-bold text-lg mr-5">Cart Id: {{(order[0].cartid)}}</div>
+    <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">Grand Total: {{order[-1].grand}}</div>
+    <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">Date of Shopping: {{ order[0].dateoftransaction.strftime('%d-%m-%Y') }}
+    </div>
+    </div>
+    {%if order.orderid==[]%}
+    <h2 class="text-sm tracking-widest title-font mb-1 font-medium text-center" style="margin-top:20px;">Products in this Category will be Available Soon.</h2>
+    {%else%}
+    <!--food category from here ie comp in comp-->
+    
+            <div class="overflow-x-auto">
+        <div class="flex flex-no-wrap -mx-2" >
+    {%for product in order%}
+        
+            <div class="p-3">
+                <div class="border-2 border-gray-200 px-4 py-6 rounded-lg relative h-full w-full" style="height: 130px; width: 250px;">
+                    {%if (product.productname)|length>18%}
+                        <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 left-0 ml-2 mt-2 overflow-auto">{{product.productname[:18]}}...</h2>
+                    {%else%}
+                        <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 left-0 ml-2 mt-2 overflow-auto">{{product.productname}}</h2>
+                    {%endif%}
+                    <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-0 right-0 mr-2 mt-2">{{product.rateperunit}}/{{product.unit.split('/')[1] }}</h2>
+
+                    <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-8 left-0 ml-2 mt-2 overflow-auto">{{product.quantity}} {{product.unit.split('/')[1] }}</h2>
+                    <h2 class="title-font font-medium text-1xl text-gray-900 absolute top-8 right-0 mr-2 mt-2">{{product.amount}} rs</h2>
+                    
+                </div>
+            </div>
+        
+    {%endfor%}
+    {%endif%}
+                                                                                                
+
+            
+
+            
+        </div>
+            </div>
+        
+
+</div>
+{%endfor%}
+</div>
+
+
+{%endif%}
+
+
+
+{% endblock %}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Navbar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+<body>
+  <header class="text-gray-600 body-font bg-gray-100">
+    
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="navbar-brand" href="{{url_for('index')}}" style="font-weight: bold;font-size:15pt">Groceri</a>
+      
+      <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+        <a class="mr-5 text-red-500">
+          {%if nav=="dashboard"%}
+            <code>{{user.uname}}'s Dashboard</code>
+          {%elif nav=="profile"%}
+            <code>{{user.uname}}'s Profile</code>
+          {%elif nav=="buy_product"%}
+            <code>Buying Product</code>
+          {%elif nav=="addtocart"%}
+            <code>Adding to Cart</code>
+          {%elif nav=="cart"%}
+            <code>{{user.uname}}'s Cart</code>
+          
+          {%elif nav=="review_product"%}
+            <code>Reviewing Product</code>
+          {%elif nav=="order"%}
+            <code>{{user.uname}}'s Order History</code>
+          {%else%}
+            <code>Login/Sign Up</code>
+
+          {%endif%}
+        </a>
+      </nav>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        {%if nav=="dashboard"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        {%elif nav=="profile"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        {%elif nav=="cart"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+          {%elif nav=="buy_product"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+          {%elif nav=="addtocart"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+          {%elif nav=="review_product"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+          {%elif nav=="order"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        {%else%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('login')}}">Customer</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('login_man')}}">Manager</a>
+        {%endif%}
+        
+      </nav>
+    </div>
+  </header>
+</body>
+</html>

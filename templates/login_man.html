@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Grocerises - Login
+{% endblock %}
+
+
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    <form action="/login_man" method="post" class="mt-5">
+      <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+        <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 mx-auto my-auto"> 
+          <!-- <h1 class="text-gray-900 ">Sign In</h1> -->
+          <h1 class="h3 mb-3 fw-normal">Manager's Sign In</h1>
+        <div class="relative mb-4">
+          <label for="username" class="leading-7 text-sm text-gray-600">Username</label>
+          <input type="text" id="username" name="username" placeholder="Username" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder="Username" required autofocus>
+        </div>
+        <div class="relative mb-4">
+          <label for="password" class="leading-7 text-sm text-gray-600">Password</label>
+          <input type="password" id="password" name="password" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder="Password" required>
+        </div>
+        <button type="submit" value="Sign in" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Sign In</button>
+      </div>
+    </div>
+    </form>
+  </section>
+{% endblock %}
+
+{% block style %}  
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        margin-top: 60px;
+        text-align: center;
+    }
+    input {
+        margin-top: 5px;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+{% endblock %}

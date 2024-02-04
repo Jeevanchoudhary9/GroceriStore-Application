@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+<body>
+  <header class="text-gray-600 body-font bg-gray-100">
+    
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="navbar-brand" href="{{url_for('manager_index')}}" style="font-weight: bold;font-size:15pt">Groceri</a>
+      
+      <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+        <a class="mr-5 text-red-500">
+          {%if nav=="dashboard"%}
+            <code>{{user.uname}}'s Dashboard</code>
+          {%elif nav=="summary"%}
+            <code>Summary</code>
+          {%elif nav=="add_category"%}
+            <code>Adding a new category</code>
+          {%elif nav=="delete_category"%}
+            <code>Deleting a category</code>
+          {%elif nav=="edit_category"%}
+            <code>Editing a category</code>
+          {%elif nav=="add_product"%}
+            <code>Adding a new product</code>
+          {%elif nav=="delete_product"%}
+            <code>Deleting a product</code>
+          {%elif nav=="edit_product"%}
+            <code>Editing a product</code>
+          {%else%}
+            <code>Home</code>
+          {%endif%}
+        </a>
+      </nav>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        {%if nav=="dashboard"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('summary')}}">Summary</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        {%elif nav=="summary"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('manager_index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        {%elif nav=="add_category" or nav=="delete_category" or nav=="edit_category" or nav=="add_product" or nav=="delete_product" or nav=="edit_product"%}
+        <a class="mr-5 hover:text-gray-900" href="{{url_for('manager_index')}}">Home</a>
+        <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('summary')}}">Summary</a>
+        <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
+
+        
+
+
+        {%else%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('login')}}">Customer</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('login_man')}}">Manager</a>
+        {%endif%}
+        
+      </nav>
+    </div>
+  </header>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+<code style="margin-left:20px;margin-top:15px;"><strong>{{product.productname}}</strong>-{{category.categoryname}}</code>
+<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    
+    <form action="" method="POST" style="text-align:left;">
+        <div style="text-align: center;"> <!-- Added text-align: center; -->
+            <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <label for="availability" class="leading-7 text-sm text-gray-600" style="margin-right: 10px;">Availability:</label>
+                <input type="text" id="availability" value="{%if product.quantity>30%}In Stock {%elif 0<product.quantity<30%}Running Out Of Stock {%else%}Out Of Stock{%endif%}" name="availability" class="leading-7 text-sm bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" disabled required >
+            </div>
+            <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <label for="quantity" class="leading-7 text-sm text-gray-600" style="margin-right: 10px;">Quantity:</label>
+                <input type="text" id="quantity" placeholder="{{product.unit}}" name="quantity" class="leading-7 text-sm bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" autofocus  required oninput="updateTotal()">
+                
+            </div>
+            <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <label for="price" class="leading-7 text-sm text-gray-600" style="margin-right: 10px;">Price:</label>
+                <input type="text" id="price" name="price" value="{{product.rateperunit}}" class="leading-7 text-sm bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" disabled required >
+            </div>
+            <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <label for="total" class="leading-7 text-sm text-gray-600" style="margin-right: 10px;">Total:</label>
+                <input type="text" id="total" name="total" value="Enter Quantity" class="leading-7 text-sm bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" disabled required >
+            </div>
+
+            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" style="margin-top: 10px;">Save</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updateTotal() {
+        const quantity = document.getElementById('quantity').value;
+        const price = '{{ product.rateperunit }}'; 
+        const total = parseFloat(quantity) * parseFloat(price);
+        document.getElementById('total').value = isNaN(total) ? 'Enter Quantity' : total.toFixed(2);
+    }
+</script>
+
+{% endblock %}

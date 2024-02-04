@@ -1,0 +1,16 @@
+{% extends 'manager_layout.html' %}
+{% block content %}
+<code style="margin-left:20px;margin-top:15px;">Deleting a Category</code>
+<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <form action="" method="POST" style="text-align:center;">
+        <div>
+            <div>
+                
+                <label for="categoryname" class="leading-7 text-sm text-gray-600">Delete Category:</label>
+                <input type="text" id="categoryname" name="categoryname" value="{{category.categoryname}}" class=" bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" disabled required >
+            </div>
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style="margin-top: 10px;">Delete</button>
+        </div>
+    </form>
+</div>
+{%endblock%}

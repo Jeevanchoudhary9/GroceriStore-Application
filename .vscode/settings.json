@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 100,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:GrocerieStore}/instance/db.sqlite3",
+            "name": "grocrie"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
