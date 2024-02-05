@@ -352,15 +352,33 @@ def buy_product_post(productid):
         flash('Quantity should be less than or equal to available quantity')
         return redirect(url_for('buy_product',productid=productid))
     
+    client=razorpay.Client(auth=("rzp_test_egexvRe956lDwz","YTeaupG98A30jK23UlUzjYVY"))
+    payment=client.order.create({'amount':int((product.rateperunit * int(quantity))*100),'currency':'INR','payment_capture':'1'})
+    name=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().firstname+" "+Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().lastname
+    email=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().email
+    phone=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().phone
+
+    return render_template('buy_payment.html',productid=productid,email=email,phone=phone,name=name,payment=payment,productname=product.productname,categoryname=Category.query.filter_by(categoryid=product.categoryid).first().categoryname,quantity=quantity,rateperunit=product.rateperunit,unit=product.unit,amount=(product.rateperunit * int(quantity)),nav="payment",user=User.query.filter_by(userid=session['user_id']).first())
+    
+
+@app.route('/buy_payment/<int:productid>/<int:quantity>',methods=["POST"])
+@auth_required
+def buy_payment(productid,quantity):
+    cart = Cart.query.filter_by(userid=session['user_id']).all() 
+    cartid=random.randint(1,100000)
+    
+    product=Product.query.filter_by(productid=productid).first()
+    
     order=Order(userid=session['user_id'],productid=product.productid,quantity=quantity,dateoftransaction=datetime.datetime.now(),cartid=cartid,productname=product.productname,categoryname=Category.query.filter_by(categoryid=product.categoryid).first().categoryname,rateperunit=product.rateperunit,unit=product.unit,amount=(product.rateperunit * int(quantity)),categoryid=product.categoryid)
     
-            
+    
     db.session.add(order)
     product.quantity=product.quantity-int(quantity)
     db.session.add(product)
     db.session.commit()
     flash(['Thank you for Shopping','success'])
     return redirect(url_for('index'))
+
 
 @app.route('/cart')
 @auth_required
@@ -492,16 +510,12 @@ def buy_all():
     cart = Cart.query.filter_by(userid=session['user_id']).all() 
 
     cartid=random.randint(1,100000)
-    
 
     for item in cart:
-        
         product_details = Product.query.filter_by(productid=item.productid).first()
         if product_details.quantity==0:
-            flash('Product is out of stock')
             continue
         elif product_details.quantity<item.quantity:
-            flash('Product quantity is less than required quantity')
             continue
         else:
             order=Order(userid=session['user_id'],productid=item.productid,quantity=item.quantity,dateoftransaction=datetime.datetime.now(),cartid=cartid,productname=product_details.productname,categoryname=Category.query.filter_by(categoryid=product_details.categoryid).first().categoryname,rateperunit=product_details.rateperunit,unit=product_details.unit,amount=(product_details.rateperunit * item.quantity),categoryid=product_details.categoryid)
@@ -548,7 +562,6 @@ def order():
         
     
     return render_template('order.html', orders=orders1, nav="order", user=User.query.filter_by(userid=session['user_id']).first())
-
 
 
 
@@ -636,18 +649,126 @@ def summary():
 
 # payment
 @app.route('/payment')
-@auth_required
+@auth_required 
 def payment():
-    client=razorpay.Client(auth=("rzp_test_egexvRe956lDwz","YTeaupG98A30jK23UlUzjYVY"))
-    payment=client.order.create({'amount':int(100*100),'currency':'INR','payment_capture':'1'})
-    return render_template('payment.html',payment=payment)
+    
+    
+    cart = Cart.query.filter_by(userid=session['user_id']).all()
+    products = []
+    grand_total=[]
+    total_amount=0
 
-@app.route('/payment',methods=["post"])
-@auth_required
-def payment_post():
-    return render_template('payment.html')
+    username=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().firstname+" "+Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().lastname
+    email=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().email
+    phone=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().phone
+    
+    for item in cart:
+        
+        product_details = Product.query.filter_by(productid=item.productid).first()
+
+        if product_details.quantity==0:
+            flash('Product is out of stock')
+            continue
+        elif product_details.quantity<item.quantity:
+            flash('Product quantity is less than required quantity')
+            continue
+        else:
+            category_details = Category.query.filter_by(categoryid=product_details.categoryid).first()
+            cart=Cart.query.filter_by(userid=session['user_id'],productid=item.productid).all()
+            total_amount=total_amount+(Cart.query.filter_by(userid=session['user_id'],productid=item.productid).first().quantity*product_details.rateperunit)
+            
+            products.append({
+                'productid': product_details.productid,
+                'productname': product_details.productname,
+                'categoryname': category_details.categoryname,
+                'rateperunit': product_details.rateperunit,
+                'unit': product_details.unit,
+                'quantity': int(item.quantity),
+                'amount': product_details.rateperunit * item.quantity,
+                'stock': int(product_details.quantity),
+                
+            })
+    grand_total.append({'grand_total':total_amount})
+    total_amount_after=total_amount
+
+    if total_amount>500000:
+        flash('Maximum amount for payment is 500000')
+        return redirect(url_for('cart'))
+    if total_amount>40000:
+        total_amount_after=40000
+    client=razorpay.Client(auth=("rzp_test_egexvRe956lDwz","YTeaupG98A30jK23UlUzjYVY"))
+    payment=client.order.create({'amount':int(total_amount_after*100),'currency':'INR','payment_capture':'1'})
+
+
+    return render_template('payment.html',username=username,email=email,phone=phone,payment=payment,products=products,grand_total=grand_total,nav="payment",user=User.query.filter_by(userid=session['user_id']).first())
+
 
 @app.route('/success',methods=["post"])
 @auth_required
 def success():
-    return render_template('success.html')
+    
+    cart = Cart.query.filter_by(userid=session['user_id']).all()
+    products = []
+    grand_total=[]
+    total_amount=0
+
+    username=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().firstname+" "+Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().lastname
+    email=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().email
+    phone=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().phone
+    
+    for item in cart:
+        
+        product_details = Product.query.filter_by(productid=item.productid).first()
+
+        if product_details.quantity==0:
+            continue
+        elif product_details.quantity<item.quantity:
+            continue
+        else:
+            category_details = Category.query.filter_by(categoryid=product_details.categoryid).first()
+            cart=Cart.query.filter_by(userid=session['user_id'],productid=item.productid).all()
+            total_amount=total_amount+(Cart.query.filter_by(userid=session['user_id'],productid=item.productid).first().quantity*product_details.rateperunit)
+            
+            products.append({
+                'productid': product_details.productid,
+                'productname': product_details.productname,
+                'categoryname': category_details.categoryname,
+                'rateperunit': product_details.rateperunit,
+                'unit': product_details.unit,
+                'quantity': int(item.quantity),
+                'amount': product_details.rateperunit * item.quantity,
+                'stock': int(product_details.quantity),
+                
+            })
+    grand_total.append({'grand_total':total_amount})
+    message="Thank You for Shopping from Groceri Store"
+    buy_all()
+    return render_template('success.html',message=message,username=username,email=email,phone=phone,payment=payment,products=products,grand_total=grand_total,nav="success",user=User.query.filter_by(userid=session['user_id']).first())
+
+
+@app.route('/order_success/<int:cartid>')
+@auth_required
+def order_success(cartid):
+    orders = []
+    grand=0
+    username=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().firstname+" "+Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().lastname
+    email=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().email
+    phone=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().phone
+
+    for order in Order.query.filter_by(cartid=cartid).all():
+            product_details = Product.query.filter_by(productid=order.productid).first()
+            grand=grand+order.rateperunit * order.quantity
+            orders.append({
+                'productid': order.productid,
+                'productname': order.productname,
+                'categoryname': order.categoryname,
+                'rateperunit': order.rateperunit,
+                'unit': order.unit,
+                'quantity': order.quantity,
+                'amount': order.rateperunit * order.quantity,
+                'dateoftransaction':order.dateoftransaction,
+                'cartid':order.cartid,
+                'grand':grand
+            })
+    print(orders)
+    return render_template('order_success.html',username=username,email=email,phone=phone, cartid=cartid,orders=orders, grand=grand, nav="success", user=User.query.filter_by(userid=session['user_id']).first())

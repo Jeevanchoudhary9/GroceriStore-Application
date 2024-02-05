@@ -15,7 +15,7 @@ Grocerises - Payment
       <div class="flex flex-col gap-3 border-b py-6 text-xs">
         <p class="flex justify-between">
           <span class="text-gray-400">Customer:</span>
-          <span>{{username}}</span>
+          <span>{{name}}</span>
         </p>
       </div>
       <div class="flex flex-col gap-4 pb-6 pt-2 text-xs">
@@ -29,14 +29,14 @@ Grocerises - Payment
             </tr>
           </thead>
           <tbody>
-            {% for product in products %}
+            
             <tr class="flex py-1">
-              <td class="flex-1">{{ product["categoryname"] }} - {{ product["productname"] }}</td>
-              <td class="min-w-[72px]">{{ product["quantity"] }} {{product["unit"].split('/')[1] }}</td>
-              <td class="min-w-[172px]">{{ product["rateperunit"] }} {{ product["unit"] }}</td>
-              <td class="min-w-[44px]">{{product["amount"]}} Rs</td>
+              <td class="flex-1">{{ categoryname }} - {{ productname }}</td>
+              <td class="min-w-[72px]">{{ quantity }} {{unit.split('/')[1] }}</td>
+              <td class="min-w-[172px]">{{ rateperunit }} {{ unit }}</td>
+              <td class="min-w-[44px]">{{amount}} Rs</td>
             </tr>
-            {% endfor %}
+            
           </tbody>
         </table>
       
@@ -68,7 +68,7 @@ Grocerises - Payment
                     "description": "Test Transaction",
                     "image": "http://127.0.0.1:5500/templates/gs .png",
                     "order_id": "{{payment['order_id']}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                    "callback_url": "{{url_for('success')}}",
+                    "callback_url": "{{url_for('buy_payment',productid=productid,quantity=quantity)}}",
                     "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
                         "name": "{{username}}", //your customer's name
                         "email": "{{email}}",
