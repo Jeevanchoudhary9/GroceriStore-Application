@@ -1,0 +1,309 @@
+{% extends 'layout.html'%}
+{%block title%}Orders{%endblock%}
+{%block content%}
+<style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #2874f0; /* Flipkart's primary color */
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Order tracking status */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .status-bar div {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .status-bar div.active {
+            color: #2874f0; /* Flipkart's primary color */
+        }
+
+        /* Order info card */
+        .order-info {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .dark{
+            background-color: #c0ecfd8c;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+
+        .order-info img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .order-info h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .order-info p {
+            margin-bottom: 5px;
+        }
+    </style>
+
+
+    <div class="container">
+        <!-- Order status bar -->
+        <div class="status-bar">
+            <div id="orderPending">Pending</div>
+            <div class="active" id="orderPlaced">Order Placed</div>
+            <div id="shipped">Shipped</div>
+            <div id="outForDelivery">Out for Delivery</div>
+            <div id="delivered">Delivered</div>
+        </div>
+
+        <!-- pending -->
+        <div class="order-info" id="orderPendingPage" style="display: none;">
+            {%for order in orders%}
+                {%if order.delivery==0%}
+                    <div class="dark">
+                        <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+                            <div class="font-bold text-lg mr-5 pt-1">Order id: {{(order.cartid)}}</div>
+                            <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">
+                                <a href="{{url_for('order_success',cartid=order.cartid)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M19 4h-1a1 1 0 1 0 0 2v11a1 1 0 0 1-2 0V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1ZM3 4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4Zm9 13H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Z"/>
+                                        <path d="M6 5H5v1h1V5Z"/>
+                                    </svg>
+                                    view
+                                </a>
+                            </div>
+                        </div>
+                    <div>
+                        <img src="http://127.0.0.1:5500/templates/gs .png" alt="Product Image">
+                    </div>
+                    <div>
+                        <p class="font-bold">Status: {%if order.delivery==0%}Pending{%endif%} </p>
+                        <p>Date of transaction: {{order.dateoftransaction.strftime('%d-%m-%Y %H:%M:%S')}}</p>
+                        <p>Price: {{order.grand}} Rs</p>
+                        <p>Delivery Address: {{order.address}}</p>
+                    </div>
+                </div>
+                {%endif%}
+                
+            {%endfor%} 
+        </div>
+
+        <!-- Order info cards -->
+        <!-- Order Placed -->
+        <div  class="order-info" id="orderPlacedPage">
+            
+            {%for order in orders%}
+                {%if order.delivery==1%}
+                    <div class="dark">
+                        
+                        <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+                            <div class="font-bold text-lg mr-5 pt-1">Order id: {{(order.cartid)}}</div>
+                            <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">
+                                <a href="{{url_for('order_success',cartid=order.cartid)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M19 4h-1a1 1 0 1 0 0 2v11a1 1 0 0 1-2 0V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1ZM3 4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4Zm9 13H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Z"/>
+                                        <path d="M6 5H5v1h1V5Z"/>
+                                    </svg>
+                                    view
+                                </a>
+                            </div>
+                        </div>
+
+
+                    <div>
+                        <img src="http://127.0.0.1:5500/templates/gs .png" alt="Product Image">
+                    </div>
+                    <div>
+                        <p class="font-bold">Status: {%if order.delivery==1%}Order Placed{%endif%} </p>
+                        <p>Date of transaction: {{order.dateoftransaction.strftime('%d-%m-%Y %H:%M:%S')}}</p>
+                        <p>Price: {{order.grand}} Rs</p>
+                        <p>Delivery Address: {{order.address}}</p>
+                    </div>
+                </div>
+                {%endif%}
+                
+            {%endfor%} 
+            
+        </div>
+        
+
+        <!-- Shipped -->
+        <div class="order-info" id="shippedPage" style="display: none;">
+            {%for order in orders%}
+                {%if order.delivery==2%}
+                    <div class="dark">
+                        <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+                            <div class="font-bold text-lg mr-5 pt-1">Order id: {{(order.cartid)}}</div>
+                            <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">
+                                <a href="{{url_for('order_success',cartid=order.cartid)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M19 4h-1a1 1 0 1 0 0 2v11a1 1 0 0 1-2 0V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1ZM3 4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4Zm9 13H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Z"/>
+                                        <path d="M6 5H5v1h1V5Z"/>
+                                    </svg>
+                                    view
+                                </a>
+                            </div>
+                        </div>
+                    <div>
+                        <img src="http://127.0.0.1:5500/templates/gs .png" alt="Product Image">
+                    </div>
+                    <div>
+                        <p class="font-bold">Status: {%if order.delivery==2%}Shipped{%endif%} </p>
+                        <p>Date of transaction: {{order.dateoftransaction.strftime('%d-%m-%Y %H:%M:%S')}}</p>
+                        <p>Price: {{order.grand}} Rs</p>
+                        <p>Delivery Address: {{order.address}}</p>
+                    </div>
+                </div>
+                {%endif%}
+                
+            {%endfor%} 
+        </div>
+
+        <!-- Out for Delivery -->
+        <div class="order-info" id="outForDeliveryPage" style="display: none;">
+            {%for order in orders%}
+                {%if order.delivery==3%}
+                    <div class="dark">
+                        <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+                            <div class="font-bold text-lg mr-5 pt-1">Order id: {{(order.cartid)}}</div>
+                            <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">
+                                <a href="{{url_for('order_success',cartid=order.cartid)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M19 4h-1a1 1 0 1 0 0 2v11a1 1 0 0 1-2 0V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1ZM3 4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4Zm9 13H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Z"/>
+                                        <path d="M6 5H5v1h1V5Z"/>
+                                    </svg>
+                                    view
+                                </a>
+                            </div>
+                        </div>
+                    <div>
+                        <img src="http://127.0.0.1:5500/templates/gs .png" alt="Product Image">
+                    </div>
+                    <div>
+                        <p class="font-bold">Status: {%if order.delivery==3%}Out for Delivery{%endif%} </p>
+                        <p>Date of transaction: {{order.dateoftransaction.strftime('%d-%m-%Y %H:%M:%S')}}</p>
+                        <p>Price: {{order.grand}} Rs</p>
+                        <p>Delivery Address: {{order.address}}</p>
+                    </div>
+                </div>
+                {%endif%}
+                
+            {%endfor%} 
+        </div>
+
+        <!-- Delivered -->
+        <div class="order-info" id="deliveredPage" style="display: none;">
+            {%for order in orders%}
+                {%if order.delivery==4%}
+                    <div class="dark">
+                        <div class="flex text-2xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+                            <div class="font-bold text-lg mr-5 pt-1">Order id: {{(order.cartid)}}</div>
+                            <div class="font-bold text-lg mr-5  md:pl-4 md:border-l md:border-gray-400">
+                                <a href="{{url_for('order_success',cartid=order.cartid)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M19 4h-1a1 1 0 1 0 0 2v11a1 1 0 0 1-2 0V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a1 1 0 0 0-1-1ZM3 4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4Zm9 13H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-3H4a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Zm0-3h-2a1 1 0 0 1 0-2h2a1 1 0 1 1 0 2Z"/>
+                                        <path d="M6 5H5v1h1V5Z"/>
+                                    </svg>
+                                    view
+                                </a>
+                            </div>
+                        </div>
+                    <div>
+                        <img src="http://127.0.0.1:5500/templates/gs .png" alt="Product Image">
+                    </div>
+                    <div>
+                        <p class="font-bold">Status: {%if order.delivery==4%}Delivered{%endif%} </p>
+                        <p>Date of transaction: {{order.dateoftransaction.strftime('%d-%m-%Y %H:%M:%S')}}</p>
+                        <p>Price: {{order.grand}} Rs</p>
+                        <p>Delivery Address: {{order.address}}</p>
+                    </div>
+                </div>
+                {%endif%}
+                
+            {%endfor%} 
+        </div>
+    </div>
+
+    <script>
+        // Add click events to switch between pages
+
+        document.getElementById('orderPlaced').addEventListener('click', function() {
+            showPage('orderPlacedPage');
+        });
+
+        document.getElementById('orderPending').addEventListener('click', function() {
+            showPage('orderPendingPage');
+        });
+
+        document.getElementById('shipped').addEventListener('click', function() {
+            showPage('shippedPage');
+        });
+
+        document.getElementById('outForDelivery').addEventListener('click', function() {
+            showPage('outForDeliveryPage');
+        });
+
+        document.getElementById('delivered').addEventListener('click', function() {
+            showPage('deliveredPage');
+        });
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.order-info').forEach(function(page) {
+                page.style.display = 'none';
+            });
+            // Show the selected page
+            document.getElementById(pageId).style.display = 'block';
+            // Update active status in status bar
+            document.querySelectorAll('.status-bar div').forEach(function(status) {
+                status.classList.remove('active');
+            });
+            document.getElementById(pageId.replace('Page', '')).classList.add('active');
+        }
+    </script>
+</body>
+</html>
+{%endblock%}

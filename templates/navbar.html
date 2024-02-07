@@ -32,6 +32,8 @@
             <code>{{user.uname}}'s Payment</code>
           {%elif nav=="success"%}
             <code>{{user.uname}}'s Payment Success</code>
+          {%elif nav=="tracking"%}
+            <code>{{user.uname}}'s Tracking Order</code>
           {%else%}
             <code>Login/Sign Up</code>
 
@@ -43,18 +45,21 @@
           <a class="mr-5 hover:text-gray-900" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="profile"%}
           <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="cart"%}
           <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="buy_product"%}
@@ -62,6 +67,7 @@
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="addtocart"%}
@@ -69,6 +75,7 @@
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="review_product"%}
@@ -76,12 +83,14 @@
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="order"%}
           <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="payment"%}
@@ -89,6 +98,7 @@
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%elif nav=="success"%}
@@ -96,8 +106,15 @@
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('tracking')}}">Tracking</a>
           <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
+        {%elif nav=="tracking"%}
+          <a class="mr-5 hover:text-gray-900" href="{{url_for('index')}}">Home</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('profile')}}">Profile</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('cart')}}">Cart</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('order')}}">Orders</a>
+          <a class="mr-5 hover:text-gray-900 md:pl-4 md:border-l md:border-gray-400" href="{{url_for('logout')}}">Logout</a>
 
         {%else%}
           <a class="mr-5 hover:text-gray-900" href="{{url_for('login')}}">Customer</a>

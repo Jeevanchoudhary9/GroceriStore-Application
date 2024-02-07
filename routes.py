@@ -1,5 +1,6 @@
 import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from sqlalchemy import distinct
 from app import app
 from functools import wraps
 from models import db, User, Profile, Product, Category, Cart, Order
@@ -553,7 +554,8 @@ def order():
                 'amount': order.rateperunit * order.quantity,
                 'dateoftransaction':order.dateoftransaction,
                 'cartid':order.cartid,
-                'grand':grand
+                'grand':grand,
+                'delivery':order.delivery_status
             })
         orders1.append(orders)
         grand=0
@@ -770,5 +772,41 @@ def order_success(cartid):
                 'cartid':order.cartid,
                 'grand':grand
             })
-    print(orders)
     return render_template('order_success.html',username=username,email=email,phone=phone, cartid=cartid,orders=orders, grand=grand, nav="success", user=User.query.filter_by(userid=session['user_id']).first())
+
+@app.route('/tracking')
+@auth_required
+def tracking():
+    order=Order.query.filter_by(userid=session['user_id']).all()
+    cart_ids = db.session.query(distinct(Order.cartid)).filter_by(userid=session['user_id']).all()
+    cart_ids = [row[0] for row in cart_ids]
+    transfer=[]
+    for id in cart_ids:
+        order=Order.query.filter_by(cartid=id).all()
+        grand=0
+        for item in order:
+            grand=grand+item.rateperunit * item.quantity
+        transfer.append({'cartid':id,'grand':grand,'delivery':Order.query.filter_by(cartid=id).first().delivery_status,'dateoftransaction':Order.query.filter_by(cartid=id).first().dateoftransaction,'address':Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().address})
+   
+
+    return render_template('tracking.html',orders=transfer,nav='tracking',user=User.query.filter_by(userid=session['user_id']).first())
+
+@app.route('/delivery_status/<int:cartid>')
+@auth_required
+def delivery_status(cartid):
+    order=Order.query.filter_by(cartid=cartid).all()
+    for item in order:
+        item.delivery_status=(item.delivery_status+1)%5
+    db.session.commit()
+    return redirect(url_for('order'))
+
+
+# not of use just for testing
+@app.route('/delevered')
+@auth_required
+def delevered():
+    order=Order.query.filter_by(userid=session['user_id']).all()
+    for item in order:
+        item.delivery_status=4
+    db.session.commit()
+    return redirect(url_for('order'))

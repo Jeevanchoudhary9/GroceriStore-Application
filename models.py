@@ -98,7 +98,7 @@ class Order(db.Model):
     unit= db.Column(db.String(20), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     categoryid = db.Column(db.Integer, nullable=False)
-
+    delivery_status = db.Column(db.Integer, nullable=False, default=0)
     #sessionid = db.Column(db.String(20), db.ForeignKey('session.sid'), nullable=True)
 
 with app.app_context():
