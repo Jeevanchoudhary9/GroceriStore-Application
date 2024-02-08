@@ -780,6 +780,7 @@ def tracking():
     order=Order.query.filter_by(userid=session['user_id']).all()
     cart_ids = db.session.query(distinct(Order.cartid)).filter_by(userid=session['user_id']).all()
     cart_ids = [row[0] for row in cart_ids]
+    print(session['user_id'])
     transfer=[]
     for id in cart_ids:
         order=Order.query.filter_by(cartid=id).all()
