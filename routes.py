@@ -487,6 +487,9 @@ def addtocart_post(productid):
     if product.quantity==0:
         flash('Product is out of stock')
         return redirect(url_for('addtocart',productid=productid))
+    if quantity==0:
+         flash('Quantity must be non zero')
+         return redirect(url_for('addtocart',productid=productid))
     if product.quantity<int(quantity):
         flash('Product quantity is less than required quantity')
         return redirect(url_for('addtocart',productid=productid))
