@@ -1,8 +1,8 @@
-# Groceries Store Application
+# GroceriStore-Application
 
 ## Project Overview
 
-Welcome to the Groceries Store Application, a modern platform designed to provide users with a seamless shopping experience for all their grocery needs. This innovative application not only simplifies the process of purchasing groceries but also offers features such as order tracking, payment history, and personalized profiles for enhanced convenience.
+Welcome to the GroceriStore-Application, a modern platform designed to provide users with a seamless shopping experience for all their grocery needs. This innovative application not only simplifies the process of purchasing groceries but also offers features such as order tracking, payment history, and personalized profiles for enhanced convenience.
 
 ## Project Goals
 
