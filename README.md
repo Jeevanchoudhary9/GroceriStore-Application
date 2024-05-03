@@ -64,7 +64,7 @@ To run the Groceries Store Application locally on your machine, follow these ste
     ```
     
 7. **Access the Application:**
-   Open your web browser and go to http://localhost:8000/ or web shown in terminal
+   Open your web browser and go to http://127.0.0.1:5000 or web shown in terminal
 
 ## Project Structure
 
