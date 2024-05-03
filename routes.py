@@ -353,7 +353,7 @@ def buy_product_post(productid):
         flash('Quantity should be less than or equal to available quantity')
         return redirect(url_for('buy_product',productid=productid))
     
-    client=razorpay.Client(auth=("rzp_test_egexvRe956lDwz","YTeaupG98A30jK23UlUzjYVY"))
+    client=razorpay.Client(auth=("Key Id","Key Secret")) # enter your razorpay key ex X= rzp_test_egexvRe123xXxx,Y= YTeaupG12X12jK12XxXxxXXX web= https://dashboard.razorpay.com/app/website-app-settings/api-keys
     payment=client.order.create({'amount':int((product.rateperunit * int(quantity))*100),'currency':'INR','payment_capture':'1'})
     name=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().firstname+" "+Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().lastname
     email=Profile.query.filter_by(profileid=(User.query.filter_by(userid=session['user_id']).first().profileid)).first().email
@@ -701,7 +701,7 @@ def payment():
         return redirect(url_for('cart'))
     if total_amount>40000:
         total_amount_after=40000
-    client=razorpay.Client(auth=("rzp_test_egexvRe956lDwz","YTeaupG98A30jK23UlUzjYVY"))
+    client=razorpay.Client(auth=("Key Id","Key Secret")) # enter your razorpay key ex X= rzp_test_egexvRe123xXxx,Y= YTeaupG12X12jK12XxXxxXXX web= https://dashboard.razorpay.com/app/website-app-settings/api-keys
     payment=client.order.create({'amount':int(total_amount_after*100),'currency':'INR','payment_capture':'1'})
 
 
