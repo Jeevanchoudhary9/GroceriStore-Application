@@ -37,33 +37,45 @@ To run the Groceries Store Application locally on your machine, follow these ste
     ```bash
     git clone https://github.com/Jeevanchoudhary9/GroceriStore-Application.git
     ```
-
-2. **Navigate to the Project Directory:**
+2. **Create .env file:**
+    Insert the following code in the file
+    FLASK_DEBUG=true
+    FLASK_APP=app.py
+    SQLALCHEMY_DATABASE_URI=sqlite:///db.sqlite3
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    SECRET_KEY="Code"
+   a) **Create Secret Key(To be run in Terminal):**
+    ```bash
+    echo “SECRET_KEY=$(date +%s%N) | shamus -a 512 | cut -d' ' -f1)">>env
+    ```
+    put the secret key in .env at "Code"
+   
+3. **Navigate to the Project Directory:**
     ```bash
     cd GroceriStore-Application
     ```
 
-3. **Create a Virtual Environment:**
+4. **Create a Virtual Environment:**
     ```bash
     python3 -m venv env
     ```
 
-4. **Activate the Virtual Environment:**
+5. **Activate the Virtual Environment:**
     ```bash
     source env/bin/activate
     ```
 
-5. **Install Dependencies:**
+6. **Install Dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-6. **Run the Development Server:**
+7. **Run the Development Server:**
     ```bash
     flask run
     ```
     
-7. **Access the Application:**
+8. **Access the Application:**
    Open your web browser and go to http://127.0.0.1:5000 or web shown in terminal
 
 ## Project Structure
